@@ -14,21 +14,21 @@ const FILES_TO_CACHE = [
     "./icons/icon-512x512.png",
 ];
 
-const PRECACHE = "precache-v1";
-const RUNTIME = "runtime";
+const STATIC_CACHE = "static-cache-v1";
+const RUNTIME_CACHE = "runtime-cache";
 
 self.addEventListener("install", (event) => {
     event.waitUntil(
         caches
-        .open(PRECACHE)
-        .then(cache => cache.addAll(FILES_TO_CACHE))
-        .then(self.skipWaiting())
+            .open(STATIC_CACHE)
+            .then(cache => cache.addAll(FILES_TO_CACHE))
+            .then(self.skipWaiting())
     );
 });
 
 //Activate handler that helps clean up old caches
 self.addEventListener('activate', (event) => {
-    const currentCaches = [PRECACHE, RUNTIME];
+    const currentCaches = [STATIC_CACHE, RUNTIME_CACHE];
     event.waitUntil(
       caches
         .keys()
@@ -47,20 +47,38 @@ self.addEventListener('activate', (event) => {
   });
 
 self.addEventListener("fetch", (event) => {
-    if (event.request.url.startsWith(self.location.origin)) {
+    if (event.request.url.includes("/api/")) {
         event.respondWith(
-            caches.match(event.request).then(cachedResponse => {
-                if (cachedResponse) {
-                    return cachedResponse;
-                }
-                return caches.open(RUNTIME).then(cache => {
-                    return fetch(event.request).then(response => {
-                        return cache.put(event.request, response.clone()).then(() => {
+            caches
+                .open(RUNTIME_CACHE)
+                .then((cache) => {
+                    return fetch(event.request)
+                        .then((response) => {
+                            if (response.status === 200) {
+                                cache.put(event.request.url, response.clone());
+                            }
                             return response;
+                        })
+                        .catch((err) => {
+                            //Network request failed, try to get it from cache
+                            return cache.match(event.request);
                         });
-                    });
-                });
-            })
+                    })
+                    .catch((err) => console.log(err))
         );
-    }
-});
+
+        return;
+    } 
+    event.respondWith(
+        fetch(event.request).catch(function () {
+          return caches.match(event.request).then(function (response) {
+            if (response) {
+              return response;
+            } else if (event.request.headers.get("accept").includes("text/html")) {
+              // return the cached home page for all requests for html pages
+              return caches.match("/");
+            }
+          })
+        })
+      )
+    });            
