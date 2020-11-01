@@ -1,3 +1,4 @@
+//Dependencies and variables
 let transactions = [];
 let myChart;
 
