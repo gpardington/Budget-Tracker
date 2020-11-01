@@ -30,7 +30,7 @@ const config = {
   plugins: [
     new WebpackPwaManifest({
         //Name of the generated manifest file
-        filename: "mainfest.json",
+        filename: "mainfest.webmanifest",
         //Inject is set to false because we are note using webpack to generate our HTML
         inject: false,
         //Set fingerprints to false to make the names of the generated files predicatable so that it's easier to refer to them in your code
