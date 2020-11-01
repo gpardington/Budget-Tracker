@@ -4,8 +4,8 @@ const path = require('path');
 const config = {
   entry: {
     main: [
-        path.join(_dirname + "/public/db.js"),
-        path.join(_dirname + "/public/index.js")
+        path.join(_dirname + '/public/db.js'),
+        path.join(_dirname + '/public/index.js')
     ]
   },
   output: {
@@ -30,7 +30,7 @@ const config = {
   plugins: [
     new WebpackPwaManifest({
         //Name of the generated manifest file
-        filename: "mainfest.webmanifest",
+        filename: 'mainfest.webmanifest',
         //Inject is set to false because we are note using webpack to generate our HTML
         inject: false,
         //Set fingerprints to false to make the names of the generated files predicatable so that it's easier to refer to them in your code
@@ -45,7 +45,6 @@ const config = {
             {
               src: path.resolve('./public/icons/icon-512x512.png'),
               sizes: [96, 128, 192, 256, 384, 512],
-              destination: path.join('assests', 'icons'),
             },
           ],
         }),
