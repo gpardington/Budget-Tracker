@@ -1,4 +1,12 @@
 //Dependencies and variables
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js").then(reg => {
+      console.log("Service worker registered.", reg);
+    });
+  });
+}
+
 let transactions = [];
 let myChart;
 
@@ -137,6 +145,7 @@ function sendTransaction(isAdding) {
   })
   .catch(err => {
     // fetch failed, so save in indexed db
+    console.log("HELLO GRANT!")
     saveRecord(transaction);
 
     // clear form
