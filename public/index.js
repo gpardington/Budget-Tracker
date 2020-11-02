@@ -1,20 +1,20 @@
+let transactions = [];
+let myChart;
+
 //Dependencies and variables
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js").then(reg => {
+    navigator.serviceWorker.register("/service-worker.js").then((reg) => {
       console.log("Service worker registered.", reg);
     });
   });
 }
 
-let transactions = [];
-let myChart;
-
 fetch("/api/transaction")
-  .then(response => {
+  .then((response) => {
     return response.json();
   })
-  .then(data => {
+  .then((data) => {
     // save db data on global variable
     transactions = data;
 
@@ -37,7 +37,7 @@ function populateTable() {
   let tbody = document.querySelector("#tbody");
   tbody.innerHTML = "";
 
-  transactions.forEach(transaction => {
+  transactions.forEach((transaction) => {
     // create and populate a table row
     let tr = document.createElement("tr");
     tr.innerHTML = `
@@ -77,13 +77,15 @@ function populateChart() {
     type: 'line',
       data: {
         labels,
-        datasets: [{
+        datasets: [
+          {
             label: "Total Over Time",
             fill: true,
             backgroundColor: "#6666ff",
-            data
-        }]
-    }
+            data,
+          },
+        ],
+      },
   });
 }
 
@@ -96,8 +98,7 @@ function sendTransaction(isAdding) {
   if (nameEl.value === "" || amountEl.value === "") {
     errorEl.textContent = "Missing Information";
     return;
-  }
-  else {
+  } else {
     errorEl.textContent = "";
   }
 
@@ -130,10 +131,10 @@ function sendTransaction(isAdding) {
       "Content-Type": "application/json"
     }
   })
-  .then(response => {    
+  .then((response) => {    
     return response.json();
   })
-  .then(data => {
+  .then((data) => {
     if (data.errors) {
       errorEl.textContent = "Missing Information";
     } else {
@@ -142,7 +143,7 @@ function sendTransaction(isAdding) {
       amountEl.value = "";
     }
   })
-  .catch(err => {
+  .catch((err) => {
     // fetch failed, so save in indexed db
     console.log("HELLO GRANT!")
     saveRecord(transaction);
