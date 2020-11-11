@@ -6,7 +6,7 @@ A budget tracker application that allows the user to add expenses and deposits t
 - [Running Application](#running-application)
 - [User Story](#user-story)
 - [Installation](#installation)
-- [Dependencies](#dependencies)
+- [Technologies](#technologies)
 - [Demo](#demo)
 - [Contributors](#contributors)
 - [Questions](#questions)
@@ -27,7 +27,7 @@ SO THAT my account balance is accurate when I am traveling
 
 Feel free to use the link provided above. Or, to run this application locally, clone this repo into your local machine and run 'npm i' in the root file of the folder. This will install all of the neccesary dependencies. After everything is installed, type 'node server.js' into your terminal to begin hosting locally. In your internet browser, type in 'http://localhost:3000/' into the url address bar to pull up the application. You can test the app out while online, then pull up the DevTools by right clicking on the webpage and clicking "Inspect." Once this is open, click on the Network tab towards the top, click on the dropdown box that says "Online," and change it to "Offline." Continuing testing out the application, and then switch the site back to "Online" by following those same steps. You will notice that everything you entered while "Offline" was still saved to the application. 
 
-## Dependencies:
+## Technologies:
 - HTML
 - CSS
 - Bootstrap
